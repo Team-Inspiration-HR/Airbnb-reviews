@@ -7,3 +7,6 @@
 /massivedata.json/
 massivedata.json
 /client/dist/bundle.js/
+.env
+*.csv
+*.pem

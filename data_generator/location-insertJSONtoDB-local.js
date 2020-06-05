@@ -3,8 +3,8 @@ const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
 
-const fileName = "../actualData-Reviews-smallEdition.json";
-// const fileName = "../actualData-Reviews-workingEdition.json";
+const fileName = "../actualData-Locations-Massive-10million.json";
+// const fileName = "../actualData-Locations-small.json";
 
 // const myJson = "C:\Users\Peter\Desktop\SDC_data\actualData-massive";
 const myJson = fs.readFileSync(path.join(__dirname, fileName));
@@ -35,19 +35,18 @@ client
   .then(async () => {
     console.log("were connected");
     let parsed = JSON.parse(myJson);
-    // let counter = 1025;
     let counter = 1;
     for (let item of parsed) {
       try {
         counter++;
         await client.query(
-          `insert into bnb_reviews (name, loc_id, gender, profilePicNum, date, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) VALUES ('${item.name}', ${item.loc_id}, '${item.gender}', ${item.profilePicNum}, '${item.date}', '${item.sentence}', ${item.accuracy_rating}, ${item.communication_rating}, ${item.cleanliness_rating}, ${item.location_rating}, ${item.check_in_rating}, ${item.value_rating}, ${item.overall_rating})`
+          `insert into bnb_locations (name) VALUES ('${item.name}')`
         );
       } catch (err) {
         console.log("counter", counter, "err", err);
       }
     }
-    console.log('counter', counter);
+    console.log('done and count is', counter);
     client.end((err) => {
       console.log("client has disconnected");
       if (err) {

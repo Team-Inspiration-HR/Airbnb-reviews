@@ -3,7 +3,14 @@ const path = require("path");
 require("events").EventEmitter.defaultMaxListeners = 20;
 const casual = require("casual");
 
-const fileName = "./actualData-Reviews-workingEdition.json";
+const fileName = "./actualData-Reviews-smallEdition.json";
+// const fileName = "./actualData-Reviews-smallEdition.json";
+
+function randomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const writable = fs.createWriteStream(fileName);
 const drainProcess = () =>
@@ -12,7 +19,7 @@ const drainProcess = () =>
   });
 console.time("lap");
 console.time("timer");
-let amountOfReviews = 10000;
+let amountOfReviews = 200;
 
 async function safelyWriteReviews(dataArray) {
   writable.write("[");
@@ -23,7 +30,8 @@ async function safelyWriteReviews(dataArray) {
     const id = i + 1;
     curData.id = id;
     //foreign key
-    curData.loc_id = Math.floor(Math.random() * (amountOfReviews / 10));
+    curData.loc_id = randomNumber(1, Math.floor((amountOfReviews / 10)));
+    // curData.loc_id = Math.floor(Math.random() * (amountOfReviews / 10));
     // name
     const name = casual.first_name;
     curData.name = name;
